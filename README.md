@@ -58,13 +58,13 @@ Build Investing-Website from the source and install dependencies:
 1.  Clone the repository:
 
     ```bash
-    git clone [https://github.com/ssupshub/Investing-Website](https://github.com/ssupshub/Investing-Website)
+    git clone https://github.com/ssupshub/Brightway-Investor.git
     ```
 
 2.  Navigate to the project directory:
 
     ```bash
-    cd Investing-Website
+    cd Brightway-Investor
     ```
 
 3.  Install the dependencies:
