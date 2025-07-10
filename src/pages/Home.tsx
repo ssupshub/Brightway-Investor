@@ -5,6 +5,7 @@ import Services from '../components/Services';
 import Testimonials from '../components/Testimonials';
 import Calculators from '../components/Calculators';
 import InvestmentGuide from '../components/InvestmentGuide';
+import Reviews from '../components/Reviews';
 
 interface HomeProps {
   darkMode: boolean;
@@ -21,6 +22,7 @@ const Home: React.FC<HomeProps> = ({ darkMode }) => {
       <InvestmentGuide darkMode={darkMode} />
       <Calculators darkMode={darkMode} />
       <Testimonials darkMode={darkMode} />
+      <Reviews darkMode={darkMode} />
     </div>
   );
 };

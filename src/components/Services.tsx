@@ -166,9 +166,6 @@ const Services: React.FC<ServicesProps> = ({ darkMode }) => {
                         </ul>
                       </div>
 
-                      <button className={`w-full py-2 px-4 rounded-lg font-medium transition-colors bg-gradient-to-r ${service.color} text-white hover:opacity-90`}>
-                        Get Started
-                      </button>
                     </div>
                   )}
 
@@ -190,9 +187,9 @@ const Services: React.FC<ServicesProps> = ({ darkMode }) => {
                   </button>
                   
                   {!isExpanded && (
-                    <a 
-                      href="https://wa.me/919355659990" 
-                      target="_blank" 
+                    <a
+                      href="https://wa.me/919355659990"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className={`block w-full mt-2 py-2 px-4 rounded-lg font-medium text-center transition-colors bg-gradient-to-r ${service.color} text-white hover:opacity-90`}
                     >

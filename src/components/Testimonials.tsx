@@ -30,20 +30,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ darkMode }) => {
       text: 'Best investment in my financial education! The one-on-one mentorship is worth every penny. My portfolio has grown by 42% in just 8 months.',
       avatar: 'AP',
     },
-    {
-      name: 'Sneha Reddy',
-      location: 'Hyderabad',
-      rating: 5,
-      text: 'The free webinars got me started, and now I am a premium member. The stock analysis PDFs are detailed and help me make better investment choices.',
-      avatar: 'SR',
-    },
-    {
-      name: 'Vikram Singh',
-      location: 'Pune',
-      rating: 5,
-      text: 'Excellent service! The mutual fund advisory helped me restructure my portfolio. The team is knowledgeable and always available for support.',
-      avatar: 'VS',
-    },
   ];
 
   useEffect(() => {
@@ -126,8 +112,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ darkMode }) => {
           </div>
 
           {/* Smaller Testimonial Cards */}
-          <div className="grid md:grid-cols-2 gap-6 mt-12">
-            {testimonials.slice(0, 4).map((testimonial, index) => (
+          <div className="grid md:grid-cols-3 gap-6 mt-12">
+            {testimonials.map((testimonial, index) => (
               <div
                 key={index}
                 className={`p-6 rounded-xl ${

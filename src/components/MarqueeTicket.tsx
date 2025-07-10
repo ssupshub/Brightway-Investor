@@ -5,7 +5,7 @@ interface MarqueeTickerProps {
 }
 
 const MarqueeTicker: React.FC<MarqueeTickerProps> = ({ darkMode }) => {
-  const tickerItems = [
+  const [tickerItems, setTickerItems] = React.useState([
     "🔥 NIFTY 50: 19,845.65 (+1.23%) | Volume: 2.5B",
     "📈 SENSEX: 66,527.67 (+0.89%) | Volume: 1.8B", 
     "⭐ Top Gainer: RELIANCE (+2.34%) | ₹2,847.50",
@@ -17,7 +17,31 @@ const MarqueeTicker: React.FC<MarqueeTickerProps> = ({ darkMode }) => {
     "⟠ ETHEREUM: $2,567.89 (+3.61%) | Volume: 15.2B",
     "📞 Call Now: +91 9355659990 for Expert Guidance",
     "💼 WIPRO: ₹445.30 (+1.45%) | Volume: 1.3M",
-  ];
+  ]);
+
+  // Update ticker with live-like data
+  React.useEffect(() => {
+    const updateTicker = () => {
+      setTickerItems(prevItems => 
+        prevItems.map(item => {
+          if (item.includes('NIFTY 50:')) {
+            const change = (Math.random() - 0.5) * 2;
+            const newValue = 19845.65 * (1 + change / 100);
+            return `🔥 NIFTY 50: ${newValue.toFixed(2)} (${change >= 0 ? '+' : ''}${change.toFixed(2)}%) | Volume: 2.5B`;
+          }
+          if (item.includes('SENSEX:')) {
+            const change = (Math.random() - 0.5) * 2;
+            const newValue = 66527.67 * (1 + change / 100);
+            return `📈 SENSEX: ${newValue.toFixed(2)} (${change >= 0 ? '+' : ''}${change.toFixed(2)}%) | Volume: 1.8B`;
+          }
+          return item;
+        })
+      );
+    };
+
+    const interval = setInterval(updateTicker, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={`py-3 ${

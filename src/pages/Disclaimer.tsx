@@ -77,27 +77,6 @@ const Disclaimer: React.FC<DisclaimerProps> = ({ darkMode }) => {
             </div>
 
             {/* SEBI Registration */}
-            <div className={`p-8 rounded-2xl border-l-4 border-orange-500 ${
-              darkMode ? 'bg-orange-900/20 border border-orange-800' : 'bg-orange-50 border border-orange-200'
-            }`}>
-              <div className="flex items-start space-x-4">
-                <Scale className="w-8 h-8 text-orange-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    SEBI Registration Status
-                  </h2>
-                  <p className={`text-lg mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    <strong>Brightway Investor is NOT a SEBI-registered investment advisor.</strong> We are transparent about our status and operate as an educational platform.
-                  </p>
-                  <ul className={`space-y-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    <li>• We are not authorized to provide personalized investment advice</li>
-                    <li>• We do not manage portfolios or handle client funds</li>
-                    <li>• Our services are limited to education and general market insights</li>
-                    <li>• Always consult with SEBI-registered advisors for personalized advice</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
             {/* General Terms */}
             <div className={`p-8 rounded-2xl ${

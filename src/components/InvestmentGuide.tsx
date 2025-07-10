@@ -83,7 +83,7 @@ const InvestmentGuide: React.FC<InvestmentGuideProps> = ({ darkMode }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Investment Tips */}
-        <div className="mb-20">
+        <div id="smart-investment-tips" className="mb-20">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-4">
               <Lightbulb className="w-12 h-12 text-yellow-500" />
@@ -122,7 +122,7 @@ const InvestmentGuide: React.FC<InvestmentGuideProps> = ({ darkMode }) => {
         </div>
 
         {/* Investment Guide Steps */}
-        <div>
+        <div id="how-to-start-investing">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-4">
               <BookOpen className="w-12 h-12 text-blue-600" />

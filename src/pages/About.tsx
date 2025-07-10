@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Users, Award, TrendingUp, Heart, Shield, BookOpen, Star } from 'lucide-react';
+import { Target, Users, Award, TrendingUp, Heart, Shield, BookOpen, Star, Scale } from 'lucide-react';
 
 interface AboutProps {
   darkMode: boolean;
@@ -128,6 +128,7 @@ const About: React.FC<AboutProps> = ({ darkMode }) => {
             </p>
           </div>
 
+          {/* SEBI Registration Notice */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className={`p-6 rounded-2xl ${
               darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-blue-50 border border-blue-200'
@@ -251,6 +252,15 @@ const About: React.FC<AboutProps> = ({ darkMode }) => {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* SEBI Disclaimer */}
+      <section className={`py-12 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <strong>Brightway Investor is NOT a SEBI-registered investment advisor.</strong> We are transparent about our status and operate as an educational platform.
+          </p>
         </div>
       </section>
     </div>

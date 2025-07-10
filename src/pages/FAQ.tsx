@@ -22,10 +22,6 @@ const FAQ: React.FC<FAQProps> = ({ darkMode }) => {
       answer: "Absolutely! Our courses are designed for complete beginners. We start with the very basics like what is a stock, how the market works, and gradually move to advanced concepts. Our step-by-step approach ensures you understand each concept before moving to the next level."
     },
     {
-      question: "Is Brightway Investor SEBI-registered?",
-      answer: "No, Brightway Investor is not a SEBI-registered investment advisor. We are an educational platform that provides stock market education, analysis, and insights. We believe in complete transparency about our status. All our content is for educational purposes, and we always recommend doing your own research before making investment decisions."
-    },
-    {
       question: "What makes your education different from free YouTube content?",
       answer: "While YouTube has great free content, our structured approach provides personalized guidance, real-time support, portfolio reviews, and a community of like-minded investors. We offer practical, actionable insights tailored to Indian markets with ongoing mentorship and support."
     },
@@ -40,10 +36,6 @@ const FAQ: React.FC<FAQProps> = ({ darkMode }) => {
     {
       question: "What support do you provide after purchasing a course?",
       answer: "We provide ongoing support through our community groups, regular doubt-clearing sessions, updated content, and direct access to our team. Premium members get additional benefits like one-on-one calls and priority support."
-    },
-    {
-      question: "Can I get a refund if I'm not satisfied?",
-      answer: "We offer a 7-day money-back guarantee if you're not satisfied with our educational content. However, we're confident in the value we provide and most students find our courses extremely helpful for their investment journey."
     },
     {
       question: "Do you provide stock tips or recommendations?",

@@ -172,7 +172,7 @@ const Services: React.FC<ServicesProps> = ({ darkMode }) => {
               rel="noopener noreferrer"
               className="flex items-center justify-center space-x-2 bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-all duration-200"
             >
-              <span>WhatsApp Us</span>
+              <span>WhatsApp Us: +91 9355659990</span>
             </a>
           </div>
         </div>

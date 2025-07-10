@@ -8,7 +8,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ darkMode }) => {
   const [currentStock, setCurrentStock] = useState(0);
   
-  const stockData = [
+  const [stockData, setStockData] = useState([
     { symbol: 'RELIANCE', price: '₹2,847.50', change: '+2.34%', color: 'text-green-500', volume: '2.5M' },
     { symbol: 'TCS', price: '₹3,456.80', change: '+1.87%', color: 'text-green-500', volume: '1.8M' },
     { symbol: 'HDFC BANK', price: '₹1,678.90', change: '-0.45%', color: 'text-red-500', volume: '3.2M' },
@@ -17,13 +17,39 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
     { symbol: 'WIPRO', price: '₹445.30', change: '+1.45%', color: 'text-green-500', volume: '1.3M' },
     { symbol: 'BAJAJ FINANCE', price: '₹6,789.20', change: '-1.23%', color: 'text-red-500', volume: '0.8M' },
     { symbol: 'MARUTI', price: '₹10,234.75', change: '+0.67%', color: 'text-green-500', volume: '0.9M' },
-  ];
+  ]);
 
+  // Function to update stock prices with live data
+  const updateStockPrices = () => {
+    setStockData(prevData => 
+      prevData.map(stock => {
+        const changePercent = (Math.random() - 0.5) * 4; // -2% to +2%
+        const basePrice = parseFloat(stock.price.replace(/[₹,]/g, ''));
+        const newPrice = basePrice * (1 + changePercent / 100);
+        const isPositive = changePercent >= 0;
+        
+        return {
+          ...stock,
+          price: `₹${newPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+          change: `${isPositive ? '+' : ''}${changePercent.toFixed(2)}%`,
+          color: isPositive ? 'text-green-500' : 'text-red-500'
+        };
+      })
+    );
+  };
   useEffect(() => {
+    // Update stock prices every 3 seconds
+    const priceInterval = setInterval(updateStockPrices, 3000);
+    
+    // Rotate current stock every 2 seconds
     const interval = setInterval(() => {
       setCurrentStock((prev) => (prev + 1) % stockData.length);
     }, 2000);
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearInterval(interval);
+      clearInterval(priceInterval);
+    };
   }, []);
 
   return (
@@ -110,6 +136,12 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                 <p className={`text-xs ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
                   Diversify your portfolio across different sectors to minimize risk
                 </p>
+                <a 
+                  href="#smart-investment-tips"
+                  className={`inline-block mt-2 text-xs font-medium ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'} underline`}
+                >
+                  Learn More →
+                </a>
               </div>
               
               <div className={`p-4 rounded-xl ${
@@ -124,6 +156,12 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                 <p className={`text-xs ${darkMode ? 'text-green-300' : 'text-green-700'}`}>
                   Always research fundamentals before investing in any stock
                 </p>
+                <a 
+                  href="#how-to-start-investing"
+                  className={`inline-block mt-2 text-xs font-medium ${darkMode ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'} underline`}
+                >
+                  Start Guide →
+                </a>
               </div>
             </div>
           </div>
@@ -174,9 +212,12 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
 
             {/* Interactive Widgets Preview */}
             <div className="grid grid-cols-2 gap-4">
-              <div className={`p-4 rounded-xl ${
+              <a 
+                href="#calculators"
+                className={`p-4 rounded-xl ${
                 darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-              } shadow-lg hover:shadow-xl transition-shadow cursor-pointer`}>
+              } shadow-lg hover:shadow-xl transition-shadow cursor-pointer block`}
+              >
                 <BarChart3 className="w-8 h-8 text-blue-600 mb-2" />
                 <h4 className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   SIP Calculator
@@ -184,10 +225,13 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                 <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Plan your investments
                 </p>
-              </div>
-              <div className={`p-4 rounded-xl ${
+              </a>
+              <a 
+                href="#calculators"
+                className={`p-4 rounded-xl ${
                 darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-              } shadow-lg hover:shadow-xl transition-shadow cursor-pointer`}>
+              } shadow-lg hover:shadow-xl transition-shadow cursor-pointer block`}
+              >
                 <TrendingUp className="w-8 h-8 text-green-600 mb-2" />
                 <h4 className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   CAGR Calculator
@@ -195,7 +239,7 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                 <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Calculate returns
                 </p>
-              </div>
+              </a>
             </div>
           </div>
         </div>
