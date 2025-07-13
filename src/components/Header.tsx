@@ -32,21 +32,21 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      darkMode ? 'bg-gray-900/98' : 'bg-white/98'
+      darkMode ? 'bg-gray-900/95' : 'bg-white/95'
     } backdrop-blur-lg border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'} shadow-lg`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" onClick={scrollToTop} className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center">
+          <Link to="/" onClick={scrollToTop} className="flex items-center space-x-3 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white shadow-md">
               <img 
-                src="/WhatsApp Image 2025-07-13 at 14.49.35.jpeg" 
+                src="/WhatsApp Image 2025-07-13 at 14.49.35 copy.jpeg" 
                 alt="Brightway Investor" 
-                className="w-12 h-12 object-cover rounded-full"
+                className="w-10 h-10 object-cover rounded-full"
               />
             </div>
-            <div>
-              <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <div className="hidden sm:block">
+              <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Brightway Investor
               </h1>
               <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -56,15 +56,15 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={scrollToTop}
-                className={`text-sm font-medium transition-colors px-3 py-2 rounded-lg hover:bg-opacity-10 ${
+                className={`text-sm font-medium transition-colors px-3 py-2 rounded-lg ${
                   isActive(item.href)
-                    ? 'text-blue-600 bg-blue-100 dark:bg-blue-900'
+                    ? 'text-blue-600 bg-blue-100 dark:bg-blue-900 dark:text-blue-400'
                     : darkMode 
                       ? 'text-gray-300 hover:text-blue-400 hover:bg-gray-800' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
                   <User className="w-4 h-4 text-white" />
                 </div>
-                <span className="hidden md:block text-sm font-medium">
+                <span className="hidden md:block text-sm font-medium truncate max-w-20">
                   {user.name}
                 </span>
               </button>
@@ -98,10 +98,10 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
                   darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
                 }`}>
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-                    <p className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <p className={`text-sm font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                       {user.name}
                     </p>
-                    <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className={`text-xs truncate ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       {user.email}
                     </p>
                   </div>
@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
 
             {/* WhatsApp Button */}
             <a 
-              href="https://wa.me/919355659990?text=Hi%20Team%20Brightway%20Investor%2C%20%F0%9F%91%8B%0AI%20came%20across%20your%20website%2C%20and%20I%27m%20really%20interested%20in%20learning%20more%20about%20your%20services.%0ACould%20you%20please%20share%20the%20details%20about%20your%20stock%20market%20programs%20and%20consultation%20offerings%3F%20%F0%9F%93%88%0ALooking%20forward%20to%20hearing%20from%20you%21"
+              href="https://wa.me/919355659990"
               target="_blank"
               rel="noopener noreferrer"
               className={`hidden lg:flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors shadow-sm ${
@@ -131,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
               }`}
             >
               <MessageCircle className="w-4 h-4" />
-              <span className="text-sm font-medium">WhatsApp Us</span>
+              <span className="text-sm font-medium">WhatsApp</span>
             </a>
 
             {/* Call Button */}
@@ -142,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
               }`}
             >
               <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">Call Now</span>
+              <span className="text-sm font-medium">Call</span>
             </a>
 
             <button
@@ -188,7 +188,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
                   }}
                   className={`mx-4 px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
                     isActive(item.href)
-                      ? 'text-blue-600 bg-blue-100 dark:bg-blue-900'
+                      ? 'text-blue-600 bg-blue-100 dark:bg-blue-900 dark:text-blue-400'
                       : darkMode 
                         ? 'text-gray-300 hover:text-blue-400 hover:bg-gray-800' 
                         : 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'

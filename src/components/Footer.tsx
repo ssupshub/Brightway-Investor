@@ -47,32 +47,32 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
             <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/services" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/services" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/faq" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/faq" className="text-gray-400 hover:text-white transition-colors text-sm">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link to="/contact" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/disclaimer" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Disclaimer
                 </Link>
               </li>
@@ -91,7 +91,7 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
                 'Mutual Fund Advisory'
               ].map((service) => (
                 <li key={service}>
-                  <Link to="/services" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link to="/services" className="text-gray-400 hover:text-white transition-colors text-sm">
                     {service}
                   </Link>
                 </li>
@@ -130,10 +130,10 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
             © 2024 Brightway Investor. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/disclaimer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white text-sm transition-colors">
+            <Link to="/disclaimer" className="text-gray-400 hover:text-white text-sm transition-colors">
               Disclaimer
             </Link>
-            <Link to="/contact" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white text-sm transition-colors">
+            <Link to="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
               Contact Us
             </Link>
           </div>

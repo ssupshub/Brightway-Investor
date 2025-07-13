@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -10,6 +10,17 @@ import FAQ from './pages/FAQ';
 import Disclaimer from './pages/Disclaimer';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
+
+// Component to handle scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+}
 
 interface User {
   email: string;
@@ -40,6 +51,7 @@ function App() {
   return (
     <Router>
       <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+        <ScrollToTop />
         <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home darkMode={darkMode} />} />

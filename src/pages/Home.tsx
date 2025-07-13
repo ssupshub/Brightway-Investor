@@ -13,7 +13,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ darkMode }) => {
   return (
-    <div className="pt-20">
+    <div className="main-content">
       <Hero darkMode={darkMode} />
       <MarqueeTicker darkMode={darkMode} />
       <div id="services">
