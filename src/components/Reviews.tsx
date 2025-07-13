@@ -18,27 +18,43 @@ const Reviews: React.FC<ReviewsProps> = ({ darkMode }) => {
   const [reviews, setReviews] = useState<Review[]>([
     {
       id: 1,
-      name: 'Arjun Mehta',
+      name: 'Rajesh Kumar',
       rating: 5,
-      comment: 'Excellent service! The stock market education helped me understand investing better. Highly recommended for beginners.',
+      comment: 'Excellent service! The stock market education helped me understand investing better. The mentorship program is outstanding and helped me achieve consistent returns.',
       date: '2024-01-15',
-      avatar: 'AM'
+      avatar: 'RK'
     },
     {
       id: 2,
-      name: 'Kavya Reddy',
+      name: 'Priya Sharma',
       rating: 5,
-      comment: 'Amazing mentorship program. The one-on-one sessions were very helpful in building my investment strategy.',
+      comment: 'Amazing mentorship program. The one-on-one sessions were very helpful in building my investment strategy. The daily insights are incredibly valuable.',
       date: '2024-01-10',
-      avatar: 'KR'
+      avatar: 'PS'
     },
     {
       id: 3,
-      name: 'Vikram Singh',
-      rating: 4,
-      comment: 'Good insights and daily market updates. The community is very supportive and knowledgeable.',
+      name: 'Amit Patel',
+      rating: 5,
+      comment: 'Best investment in my financial education! The portfolio consultation service is outstanding. My portfolio has grown significantly with their guidance.',
       date: '2024-01-08',
-      avatar: 'VS'
+      avatar: 'AP'
+    },
+    {
+      id: 4,
+      name: 'Neha Gupta',
+      rating: 5,
+      comment: 'The stock market education course is comprehensive and easy to understand. Perfect for beginners like me who wanted to start investing.',
+      date: '2024-01-05',
+      avatar: 'NG'
+    },
+    {
+      id: 5,
+      name: 'Suresh Reddy',
+      rating: 5,
+      comment: 'Fantastic community and support. The daily market insights help me make informed decisions. Highly recommend their services.',
+      date: '2024-01-03',
+      avatar: 'SR'
     }
   ]);
 
@@ -180,44 +196,6 @@ const Reviews: React.FC<ReviewsProps> = ({ darkMode }) => {
             </form>
           </div>
         )}
-
-        {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reviews.map((review) => (
-            <div
-              key={review.id}
-              className={`p-6 rounded-2xl ${
-                darkMode ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-200'
-              } shadow-lg hover:shadow-xl transition-shadow`}
-            >
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-semibold">
-                  {review.avatar}
-                </div>
-                <div>
-                  <h4 className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {review.name}
-                  </h4>
-                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {new Date(review.date).toLocaleDateString('en-IN', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                {renderStars(review.rating)}
-              </div>
-
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                "{review.comment}"
-              </p>
-            </div>
-          ))}
-        </div>
 
         {/* Call to Action */}
         <div className="mt-16 text-center">

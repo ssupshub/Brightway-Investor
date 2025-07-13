@@ -188,7 +188,7 @@ const Services: React.FC<ServicesProps> = ({ darkMode }) => {
                   
                   {!isExpanded && (
                     <a
-                      href="https://wa.me/919355659990"
+                      href="https://wa.me/919355659990?text=Hi%20Team%20Brightway%20Investor%2C%20%F0%9F%91%8B%0AI%20came%20across%20your%20website%2C%20and%20I%27m%20really%20interested%20in%20learning%20more%20about%20your%20services.%0ACould%20you%20please%20share%20the%20details%20about%20your%20stock%20market%20programs%20and%20consultation%20offerings%3F%20%F0%9F%93%88%0ALooking%20forward%20to%20hearing%20from%20you%21"
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`block w-full mt-2 py-2 px-4 rounded-lg font-medium text-center transition-colors bg-gradient-to-r ${service.color} text-white hover:opacity-90`}

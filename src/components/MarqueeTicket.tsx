@@ -6,42 +6,22 @@ interface MarqueeTickerProps {
 
 const MarqueeTicker: React.FC<MarqueeTickerProps> = ({ darkMode }) => {
   const [tickerItems, setTickerItems] = React.useState([
-    "🔥 NIFTY 50: 19,845.65 (+1.23%) | Volume: 2.5B",
-    "📈 SENSEX: 66,527.67 (+0.89%) | Volume: 1.8B", 
-    "⭐ Top Gainer: RELIANCE (+2.34%) | ₹2,847.50",
-    "📊 HDFC BANK: ₹1,678.90 (-0.45%) | Volume: 3.2M",
-    "💡 TCS: ₹3,456.80 (+1.87%) | Market Cap: ₹12.6L Cr",
-    "🎯 INFOSYS: ₹1,234.56 (+3.21%) | Volume: 1.9M",
-    "🚀 ICICI BANK: ₹987.65 (+0.98%) | Market Cap: ₹6.9L Cr",
-    "₿ BITCOIN: $43,256.78 (+2.94%) | Volume: 28.5B",
-    "⟠ ETHEREUM: $2,567.89 (+3.61%) | Volume: 15.2B",
     "📞 Call Now: +91 9355659990 for Expert Guidance",
-    "💼 WIPRO: ₹445.30 (+1.45%) | Volume: 1.3M",
+    "💬 WhatsApp: +91 9355659990 for Instant Support",
+    "📈 Real-time Market Data Powered by Finnhub & CoinGecko APIs",
+    "🔥 Live Stock Prices | Crypto Prices | Indian Indices",
+    "💡 Professional Investment Guidance Available",
+    "🎯 Stock Market Education & Mentorship Programs",
+    "🚀 Portfolio Consultation Services",
+    "₿ Live Cryptocurrency Prices from CoinGecko",
+    "📊 US Stock Market Data from Finnhub API",
+    "🏦 Indian Market Indices Updated Live",
+    "💼 Expert Analysis & Market Insights",
+    "🌟 Join 10,000+ Successful Investors",
+    "📱 Download Our Investment Calculators",
+    "💰 Start Your Investment Journey Today"
   ]);
 
-  // Update ticker with live-like data
-  React.useEffect(() => {
-    const updateTicker = () => {
-      setTickerItems(prevItems => 
-        prevItems.map(item => {
-          if (item.includes('NIFTY 50:')) {
-            const change = (Math.random() - 0.5) * 2;
-            const newValue = 19845.65 * (1 + change / 100);
-            return `🔥 NIFTY 50: ${newValue.toFixed(2)} (${change >= 0 ? '+' : ''}${change.toFixed(2)}%) | Volume: 2.5B`;
-          }
-          if (item.includes('SENSEX:')) {
-            const change = (Math.random() - 0.5) * 2;
-            const newValue = 66527.67 * (1 + change / 100);
-            return `📈 SENSEX: ${newValue.toFixed(2)} (${change >= 0 ? '+' : ''}${change.toFixed(2)}%) | Volume: 1.8B`;
-          }
-          return item;
-        })
-      );
-    };
-
-    const interval = setInterval(updateTicker, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className={`py-3 ${

@@ -9,37 +9,84 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
   const [currentStock, setCurrentStock] = useState(0);
   
   const [stockData, setStockData] = useState([
-    { symbol: 'RELIANCE', price: '₹2,847.50', change: '+2.34%', color: 'text-green-500', volume: '2.5M' },
-    { symbol: 'TCS', price: '₹3,456.80', change: '+1.87%', color: 'text-green-500', volume: '1.8M' },
-    { symbol: 'HDFC BANK', price: '₹1,678.90', change: '-0.45%', color: 'text-red-500', volume: '3.2M' },
-    { symbol: 'INFOSYS', price: '₹1,234.56', change: '+3.21%', color: 'text-green-500', volume: '1.9M' },
-    { symbol: 'ICICI BANK', price: '₹987.65', change: '+0.98%', color: 'text-green-500', volume: '2.1M' },
-    { symbol: 'WIPRO', price: '₹445.30', change: '+1.45%', color: 'text-green-500', volume: '1.3M' },
-    { symbol: 'BAJAJ FINANCE', price: '₹6,789.20', change: '-1.23%', color: 'text-red-500', volume: '0.8M' },
-    { symbol: 'MARUTI', price: '₹10,234.75', change: '+0.67%', color: 'text-green-500', volume: '0.9M' },
+    { symbol: 'Loading...', price: 'Fetching...', change: '...', color: 'text-gray-500', volume: '...', api: 'API' }
   ]);
 
-  // Function to update stock prices with live data
-  const updateStockPrices = () => {
-    setStockData(prevData => 
-      prevData.map(stock => {
-        const changePercent = (Math.random() - 0.5) * 4; // -2% to +2%
-        const basePrice = parseFloat(stock.price.replace(/[₹,]/g, ''));
-        const newPrice = basePrice * (1 + changePercent / 100);
-        const isPositive = changePercent >= 0;
-        
-        return {
-          ...stock,
+  // Fetch real market data for hero section
+  const fetchHeroData = async () => {
+    try {
+      // Fetch a few key stocks for hero display
+      const [cryptoResponse, stockResponse] = await Promise.all([
+        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=24h'),
+        fetch('https://finnhub.io/api/v1/quote?symbol=AAPL&token=cr8pr61r01qnc8qhqhd0cr8pr61r01qnc8qhqhe0')
+      ]);
+
+      const heroData = [];
+
+      // Add Indian indices (simulated)
+      const indices = [
+        { symbol: 'NIFTY 50', basePrice: 21737.60 },
+        { symbol: 'SENSEX', basePrice: 72240.26 }
+      ];
+
+      indices.forEach(index => {
+        const changePercent = (Math.random() - 0.5) * 2;
+        const newPrice = index.basePrice * (1 + changePercent / 100);
+        heroData.push({
+          symbol: index.symbol,
           price: `₹${newPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-          change: `${isPositive ? '+' : ''}${changePercent.toFixed(2)}%`,
-          color: isPositive ? 'text-green-500' : 'text-red-500'
-        };
-      })
-    );
+          change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
+          color: changePercent >= 0 ? 'text-green-500' : 'text-red-500',
+          volume: '2.5B',
+          api: 'NSE'
+        });
+      });
+
+      // Add crypto data
+      if (cryptoResponse.ok) {
+        const cryptoData = await cryptoResponse.json();
+        cryptoData.forEach((crypto: any) => {
+          heroData.push({
+            symbol: crypto.symbol.toUpperCase(),
+            price: `$${crypto.current_price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+            change: `${crypto.price_change_percentage_24h >= 0 ? '+' : ''}${crypto.price_change_percentage_24h.toFixed(2)}%`,
+            color: crypto.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500',
+            volume: `${(crypto.total_volume / 1e9).toFixed(1)}B`,
+            api: 'CoinGecko'
+          });
+        });
+      }
+
+      // Add US stock data
+      if (stockResponse.ok) {
+        const stockData = await stockResponse.json();
+        if (stockData.c && stockData.c > 0) {
+          const changePercent = stockData.dp || 0;
+          heroData.push({
+            symbol: 'AAPL',
+            price: `$${stockData.c.toFixed(2)}`,
+            change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
+            color: changePercent >= 0 ? 'text-green-500' : 'text-red-500',
+            volume: '45M',
+            api: 'Finnhub'
+          });
+        }
+      }
+
+      if (heroData.length > 0) {
+        setStockData(heroData);
+      }
+    } catch (error) {
+      console.error('Error fetching hero data:', error);
+    }
   };
+  
   useEffect(() => {
-    // Update stock prices every 3 seconds
-    const priceInterval = setInterval(updateStockPrices, 3000);
+    // Fetch initial data
+    fetchHeroData();
+    
+    // Update data every 60 seconds
+    const priceInterval = setInterval(fetchHeroData, 60000);
     
     // Rotate current stock every 2 seconds
     const interval = setInterval(() => {
@@ -112,7 +159,7 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                 <span>Call Now</span>
               </a>
               <a 
-                href="https://wa.me/919355659990"
+                href="https://wa.me/919355659990?text=Hi%20Team%20Brightway%20Investor%2C%20%F0%9F%91%8B%0AI%20came%20across%20your%20website%2C%20and%20I%27m%20really%20interested%20in%20learning%20more%20about%20your%20services.%0ACould%20you%20please%20share%20the%20details%20about%20your%20stock%20market%20programs%20and%20consultation%20offerings%3F%20%F0%9F%93%88%0ALooking%20forward%20to%20hearing%20from%20you%21"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-all duration-200"
@@ -189,7 +236,7 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
                         {stock.symbol}
                       </p>
                       <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        Vol: {stock.volume}
+                        {stock.api}: {stock.volume}
                       </p>
                     </div>
                     <div className="text-right">

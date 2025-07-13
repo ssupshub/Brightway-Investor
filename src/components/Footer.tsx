@@ -7,10 +7,6 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ darkMode }) => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -49,32 +45,32 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
             <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/services" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/services" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/faq" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/faq" className="text-gray-400 hover:text-white transition-colors text-sm">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link to="/contact" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                <Link to="/disclaimer" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Disclaimer
                 </Link>
               </li>
@@ -93,7 +89,7 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
                 'Mutual Fund Advisory'
               ].map((service) => (
                 <li key={service}>
-                  <Link to="/services" onClick={scrollToTop} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link to="/services" className="text-gray-400 hover:text-white transition-colors text-sm">
                     {service}
                   </Link>
                 </li>
@@ -113,7 +109,7 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
                 <span className="text-sm">+91 9355659990</span>
               </a>
               <a 
-                href="https://wa.me/919355659990"
+                href="https://wa.me/919355659990?text=Hi%20Team%20Brightway%20Investor%2C%20%F0%9F%91%8B%0AI%20came%20across%20your%20website%2C%20and%20I%27m%20really%20interested%20in%20learning%20more%20about%20your%20services.%0ACould%20you%20please%20share%20the%20details%20about%20your%20stock%20market%20programs%20and%20consultation%20offerings%3F%20%F0%9F%93%88%0ALooking%20forward%20to%20hearing%20from%20you%21"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 text-gray-400 hover:text-green-400 transition-colors"
@@ -132,10 +128,10 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
             © 2024 Brightway Investor. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/disclaimer" onClick={scrollToTop} className="text-gray-400 hover:text-white text-sm transition-colors">
+            <Link to="/disclaimer" className="text-gray-400 hover:text-white text-sm transition-colors">
               Disclaimer
             </Link>
-            <Link to="/contact" onClick={scrollToTop} className="text-gray-400 hover:text-white text-sm transition-colors">
+            <Link to="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
               Contact Us
             </Link>
           </div>
