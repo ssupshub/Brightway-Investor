@@ -78,7 +78,7 @@ const Services: React.FC<ServicesProps> = ({ darkMode }) => {
   ];
 
   return (
-    <div className={`pt-16 min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`pt-20 min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-blue-50 to-purple-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

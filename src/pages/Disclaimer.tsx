@@ -7,7 +7,7 @@ interface DisclaimerProps {
 
 const Disclaimer: React.FC<DisclaimerProps> = ({ darkMode }) => {
   return (
-    <div className={`pt-16 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`pt-20 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-red-50 to-orange-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

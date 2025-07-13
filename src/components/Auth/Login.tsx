@@ -78,11 +78,11 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }`}>
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden flex items-center justify-center shadow-lg">
               <img 
-                src="/logo.png" 
+                src="/WhatsApp Image 2025-07-13 at 14.49.35.jpeg" 
                 alt="Brightway Investor" 
-                className="w-16 h-16 object-contain"
+                className="w-20 h-20 object-cover rounded-full"
               />
             </div>
             <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
