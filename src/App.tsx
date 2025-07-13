@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Auth/Login';
 import Header from './components/Header';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -10,17 +11,36 @@ import Disclaimer from './pages/Disclaimer';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
 
+interface User {
+  email: string;
+  name: string;
+}
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
+  const handleLogin = (userData: User) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
+  // Show login page if user is not authenticated
+  if (!user) {
+    return <Login darkMode={darkMode} onLogin={handleLogin} onToggleMode={toggleDarkMode} />;
+  }
+
   return (
     <Router>
       <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} user={user} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home darkMode={darkMode} />} />
           <Route path="/about" element={<About darkMode={darkMode} />} />

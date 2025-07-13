@@ -115,40 +115,18 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
   };
 
   // Simulate Indian Indices Data
-  const fetchIndianIndicesData = (): Stock[] => {
-    setApiStatus(prev => ({ ...prev, indices: 'success' }));
-    
-    return INDIAN_INDICES.map(index => {
-      const randomChange = (Math.random() - 0.5) * 500;
-      const changePercent = (randomChange / index.currentPrice) * 100;
-      
-      return {
-        symbol: index.symbol,
-        name: index.name,
-        price: index.currentPrice.toFixed(2),
-        change: randomChange >= 0 ? `+${randomChange.toFixed(2)}` : `${randomChange.toFixed(2)}`,
-        changePercent: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-        volume: 'N/A',
-        marketCap: 'N/A',
-        sector: 'Indian Indices',
-        isPositive: randomChange >= 0,
-        isLive: true
-      };
-    });
-  };
 
   // Fetch All Market Data
   const fetchAllMarketData = async () => {
     setIsLoading(true);
     
     try {
-      const [usStocks, cryptoData, indicesData] = await Promise.all([
+      const [usStocks, cryptoData] = await Promise.all([
         fetchUSStocksData(),
-        fetchCryptoData(),
-        Promise.resolve(fetchIndianIndicesData())
+        fetchCryptoData()
       ]);
       
-      const allStocks = [...usStocks, ...cryptoData, ...indicesData];
+      const allStocks = [...usStocks, ...cryptoData];
       setStocksData(allStocks);
       setLastUpdated(new Date());
     } catch (error) {
@@ -187,13 +165,13 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
   useEffect(() => {
     fetchAllMarketData();
     
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchAllMarketData, 30000);
+    // Auto-refresh every 60 seconds
+    const interval = setInterval(fetchAllMarketData, 60000);
     
     return () => clearInterval(interval);
   }, []);
 
-  const sectors = ['All', 'Crypto', 'US Stocks', 'Indian Indices'];
+  const sectors = ['All', 'Crypto', 'US Stocks'];
 
   // US Stocks to fetch
   const US_STOCKS = [
@@ -221,13 +199,6 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
     'chainlink', 'litecoin', 'uniswap', 'stellar', 'filecoin'
   ];
 
-  // Indian Indices (simulated as real APIs for Indian indices are limited)
-  const INDIAN_INDICES = [
-    { symbol: 'NIFTY 50', name: 'NIFTY 50 Index', currentPrice: 21737.60 },
-    { symbol: 'SENSEX', name: 'BSE SENSEX', currentPrice: 72240.26 },
-    { symbol: 'NIFTY BANK', name: 'NIFTY Bank Index', currentPrice: 47789.35 },
-    { symbol: 'NIFTY NEXT 50', name: 'NIFTY Next 50 Index', currentPrice: 68542.80 }
-  ];
 
   // ... rest of the code remains the same ...
 
@@ -249,10 +220,6 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${apiStatus.coingecko === 'success' ? 'bg-green-500' : apiStatus.coingecko === 'error' ? 'bg-red-500' : 'bg-yellow-500'}`}></div>
               <span className="text-sm">Crypto</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${apiStatus.indices === 'success' ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
-              <span className="text-sm">Indian Indices</span>
             </div>
             <button
               onClick={fetchAllMarketData}

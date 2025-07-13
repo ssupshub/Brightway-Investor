@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Phone, MessageCircle } from 'lucide-react';
+import { Menu, X, Sun, Moon, Phone, MessageCircle, LogOut, User } from 'lucide-react';
 
 interface HeaderProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
+  user: { email: string; name: string };
+  onLogout: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
 
   const navItems = [
@@ -35,11 +38,13 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" onClick={scrollToTop} className="flex items-center space-x-3">
-            <img 
-              src="/logo.png" 
-              alt="Brightway Investor" 
-              className="w-10 h-10 object-contain"
-            />
+            <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
+              <img 
+                src="/logo.png" 
+                alt="Brightway Investor" 
+                className="w-8 h-8 object-contain"
+              />
+            </div>
             <div>
               <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Brightway Investor
@@ -72,6 +77,52 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-4">
+            {/* User Menu */}
+            <div className="relative">
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+                  darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                }`}
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
+                </div>
+                <span className={`hidden sm:block text-sm font-medium ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {user.name}
+                </span>
+              </button>
+
+              {showUserMenu && (
+                <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
+                  darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+                }`}>
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                    <p className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {user.name}
+                    </p>
+                    <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {user.email}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setShowUserMenu(false);
+                    }}
+                    className={`w-full flex items-center space-x-2 px-3 py-2 text-left transition-colors ${
+                      darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="text-sm">Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
             {/* WhatsApp Button */}
             <a 
               href="https://wa.me/919355659990?text=Hi%20Team%20Brightway%20Investor%2C%20%F0%9F%91%8B%0AI%20came%20across%20your%20website%2C%20and%20I%27m%20really%20interested%20in%20learning%20more%20about%20your%20services.%0ACould%20you%20please%20share%20the%20details%20about%20your%20stock%20market%20programs%20and%20consultation%20offerings%3F%20%F0%9F%93%�%0ALooking%20forward%20to%20hearing%20from%20you%21"
@@ -159,6 +210,18 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
                 <MessageCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">WhatsApp Us</span>
               </a>
+              <button
+                onClick={() => {
+                  onLogout();
+                  setIsMenuOpen(false);
+                }}
+                className={`mx-4 mt-2 flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  darkMode ? 'bg-red-900 text-red-400' : 'bg-red-50 text-red-700'
+                }`}
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm font-medium">Sign Out</span>
+              </button>
             </nav>
           </div>
         )}

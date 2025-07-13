@@ -24,23 +24,6 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
       const heroData = [];
 
       // Add Indian indices (simulated)
-      const indices = [
-        { symbol: 'NIFTY 50', basePrice: 21737.60 },
-        { symbol: 'SENSEX', basePrice: 72240.26 }
-      ];
-
-      indices.forEach(index => {
-        const changePercent = (Math.random() - 0.5) * 2;
-        const newPrice = index.basePrice * (1 + changePercent / 100);
-        heroData.push({
-          symbol: index.symbol,
-          price: `₹${newPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-          change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-          color: changePercent >= 0 ? 'text-green-500' : 'text-red-500',
-          volume: '2.5B',
-          api: 'NSE'
-        });
-      });
 
       // Add crypto data
       if (cryptoResponse.ok) {
