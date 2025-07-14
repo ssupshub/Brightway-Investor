@@ -130,7 +130,10 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
       } else if (error?.message?.includes('email_not_confirmed')) {
         setMessage({ type: 'error', text: 'Please check your email and click the confirmation link before signing in.' });
       } else if (error?.message?.includes('Invalid login credentials')) {
-        setMessage({ type: 'error', text: 'Invalid email or password. Please try again.' });
+        setMessage({ 
+          type: 'error', 
+          text: 'Invalid email or password. Please double-check your credentials and try again. If you recently signed up, make sure to confirm your email first.' 
+        });
       } else {
         setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });
       }
