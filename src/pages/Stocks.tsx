@@ -362,7 +362,6 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
           </div>
         )}
       </div>
-    </div>
   );
 };
 
