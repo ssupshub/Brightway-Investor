@@ -39,14 +39,24 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
 
     if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    } else {
+      // Check password complexity
+      const hasLowercase = /[a-z]/.test(formData.password);
+      const hasUppercase = /[A-Z]/.test(formData.password);
+      const hasNumber = /[0-9]/.test(formData.password);
+      const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(formData.password);
+      
+      if (!hasLowercase || !hasUppercase || !hasNumber || !hasSpecial) {
+        newErrors.password = 'Password must contain at least one lowercase letter, uppercase letter, number, and special character';
+      }
     }
 
     if (!isLogin) {
@@ -103,27 +113,27 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         if (data.user) {
           setMessage({ 
             type: 'success', 
-            text: 'Account created successfully! Please check your email for verification.' 
+            text: 'Account created successfully! Please check your email for verification before signing in.' 
           });
           
-          // Auto-login after successful signup
-          setTimeout(async () => {
-            const { data: signInData, error: signInError } = await authHelpers.signIn(formData.email, formData.password);
-            
-            if (!signInError && signInData.user) {
-              const { data: profile } = await authHelpers.getUserProfile(signInData.user.id);
-              
-              onLogin({
-                email: signInData.user.email!,
-                name: profile?.full_name || formData.name,
-                id: signInData.user.id
-              });
-            }
-          }, 2000);
+          // Clear form and switch to login mode
+          setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+          setIsLogin(true);
         }
       }
-    } catch (error) {
-      setMessage({ type: 'error', text: 'An unexpected error occurred. Please try again.' });
+    } catch (error: any) {
+      // Handle specific Supabase errors
+      if (error?.message?.includes('weak_password')) {
+        setMessage({ type: 'error', text: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character.' });
+      } else if (error?.message?.includes('email_address_invalid')) {
+        setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+      } else if (error?.message?.includes('email_not_confirmed')) {
+        setMessage({ type: 'error', text: 'Please check your email and click the confirmation link before signing in.' });
+      } else if (error?.message?.includes('Invalid login credentials')) {
+        setMessage({ type: 'error', text: 'Invalid email or password. Please try again.' });
+      } else {
+        setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -143,7 +153,7 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
               <img 
                 src="/WhatsApp Image 2025-07-13 at 14.56.47.jpeg" 
                 alt="Brightway Investor" 
-                className="w-20 h-20 object-cover rounded-full"
+                placeholder={isLogin ? "Enter your password" : "Min 8 chars with A-z, 0-9, !@#$"}
               />
             </div>
             <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -310,6 +320,11 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
               </button>
             </p>
           </div>
+            {!isLogin && (
+              <p className="text-xs text-gray-500 mt-1">
+                Password must contain: lowercase (a-z), uppercase (A-Z), number (0-9), and special character (!@#$%^&*)
+              </p>
+            )}
 
           {/* Dark Mode Toggle */}
           <div className="mt-6 text-center">
