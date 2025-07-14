@@ -38,9 +38,9 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" onClick={scrollToTop} className="flex items-center space-x-3 flex-shrink-0">
-            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white shadow-md">
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-md">
               <img 
-                src="/WhatsApp Image 2025-07-13 at 14.49.35 copy.jpeg" 
+                src="/WhatsApp Image 2025-07-13 at 14.56.47.jpeg" 
                 alt="Brightway Investor" 
                 className="w-10 h-10 object-cover rounded-full"
               />

@@ -16,7 +16,7 @@ const Footer: React.FC<FooterProps> = ({ darkMode }) => {
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
                 <img 
-                  src="/WhatsApp Image 2025-07-13 at 14.49.35.jpeg" 
+                  src="/WhatsApp Image 2025-07-13 at 14.56.47.jpeg" 
                   alt="Brightway Investor" 
                   className="w-10 h-10 object-cover rounded-full"
                 />

@@ -203,11 +203,12 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
   // ... rest of the code remains the same ...
 
   return (
-    <div className={`main-content min-h-screen transition-colors duration-300 ${
+    <div className={`main-content min-h-screen transition-colors duration-300 py-8 px-4 sm:px-6 lg:px-8 ${
       darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
     }`}>
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Live Market Data
           </h1>
@@ -239,7 +240,7 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-6 flex flex-wrap gap-4">
+        <div className="mb-8 flex flex-wrap gap-4">
           <div className="relative flex-1 min-w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 opacity-50" />
             <input
@@ -285,7 +286,7 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
 
         {/* Loading State */}
         {isLoading && (
-          <div className="flex items-center justify-center py-12">
+          <div className="flex items-center justify-center py-20">
             <div className="flex items-center gap-3">
               <RefreshCw className="w-6 h-6 animate-spin text-blue-500" />
               <span>Loading market data...</span>
@@ -295,56 +296,65 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
 
         {/* Stocks Grid */}
         {!isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredStocks.map((stock) => (
               <div
                 key={stock.symbol}
-                className={`p-6 rounded-xl border transition-all duration-300 hover:shadow-lg ${
+                className={`p-8 rounded-2xl border transition-all duration-300 hover:shadow-xl hover:scale-105 ${
                   darkMode 
-                    ? 'bg-gray-800 border-gray-700 hover:border-gray-600' 
-                    : 'bg-white border-gray-200 hover:border-gray-300'
+                    ? 'bg-gray-800 border-gray-700 hover:border-blue-500' 
+                    : 'bg-white border-gray-200 hover:border-blue-300 shadow-lg'
                 }`}
               >
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h3 className="font-bold text-lg">{stock.symbol}</h3>
-                    <p className="text-sm opacity-75 truncate">{stock.name}</p>
+                    <h3 className="font-bold text-xl mb-1">{stock.symbol}</h3>
+                    <p className="text-sm opacity-75 truncate max-w-40">{stock.name}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     {stock.isLive && (
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-green-500 font-medium">LIVE</span>
+                      </div>
                     )}
                     {stock.isPositive ? (
-                      <TrendingUp className="w-5 h-5 text-green-500" />
+                      <TrendingUp className="w-6 h-6 text-green-500" />
                     ) : (
-                      <TrendingDown className="w-5 h-5 text-red-500" />
+                      <TrendingDown className="w-6 h-6 text-red-500" />
                     )}
                   </div>
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold">{stock.price}</span>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl font-bold">{stock.price}</span>
                     <div className={`text-right ${stock.isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className="font-semibold">{stock.change}</div>
-                      <div className="text-sm">({stock.changePercent})</div>
+                      <div className="font-bold text-lg">{stock.change}</div>
+                      <div className="text-sm font-medium">({stock.changePercent})</div>
                     </div>
                   </div>
                   
-                  <div className="pt-3 border-t border-opacity-20 border-gray-400">
-                    <div className="flex justify-between text-sm opacity-75">
+                  <div className="pt-4 border-t border-opacity-20 border-gray-400 space-y-2">
+                    <div className="flex justify-between text-sm opacity-75 py-1">
                       <span>Volume</span>
-                      <span>{stock.volume}</span>
+                      <span className="font-medium">{stock.volume}</span>
                     </div>
                     {stock.marketCap && (
-                      <div className="flex justify-between text-sm opacity-75">
+                      <div className="flex justify-between text-sm opacity-75 py-1">
                         <span>Market Cap</span>
-                        <span>{stock.marketCap}</span>
+                        <span className="font-medium">{stock.marketCap}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-sm opacity-75">
+                    <div className="flex justify-between text-sm opacity-75 py-1">
                       <span>Sector</span>
-                      <span>{stock.sector}</span>
+                      <span className={`font-medium px-2 py-1 rounded-full text-xs ${
+                        stock.sector === 'Crypto' 
+                          ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                      }`}>
+                        {stock.sector}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -355,13 +365,14 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
 
         {/* No Results */}
         {!isLoading && filteredStocks.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-20">
             <AlertCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
             <h3 className="text-xl font-semibold mb-2">No stocks found</h3>
             <p className="opacity-75">Try adjusting your search or filter criteria</p>
           </div>
         )}
       </div>
+    </div>
   );
 };
 
