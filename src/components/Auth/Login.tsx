@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
-import { authHelpers } from '../../lib/supabase';
+import { authHelpers, supabase } from '../../lib/supabase';
 
 interface LoginProps {
   darkMode: boolean;
