@@ -103,7 +103,16 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
       } else {
         // Sign up
-        const { data, error } = await authHelpers.signUp(formData.email, formData.password, formData.name);
+        const { data, error } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.name,
+            },
+            emailRedirectTo: undefined, // Disable email confirmation completely
+          },
+        });
         
         if (error) {
           setMessage({ type: 'error', text: error.message });
@@ -111,26 +120,19 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
 
         if (data.user) {
-          // For development, auto-login after signup (skip email verification)
-          if (data.user.email_confirmed_at || !data.user.confirmation_sent_at) {
-            // User is already confirmed or confirmation not required
-            const { data: profile } = await authHelpers.getUserProfile(data.user.id);
-            
-            onLogin({
-              email: data.user.email!,
-              name: profile?.full_name || formData.name,
-              id: data.user.id
-            });
-          } else {
-            setMessage({ 
-              type: 'success', 
-              text: 'Account created successfully! You can now sign in with your credentials.' 
-            });
-            
-            // Clear form and switch to login mode
-            setFormData({ name: '', email: '', password: '', confirmPassword: '' });
-            setIsLogin(true);
-          }
+          // Auto-login immediately after signup (no email confirmation required)
+          const { data: profile } = await authHelpers.getUserProfile(data.user.id);
+          
+          onLogin({
+            email: data.user.email!,
+            name: profile?.full_name || formData.name,
+            id: data.user.id
+          });
+          
+          setMessage({ 
+            type: 'success', 
+            text: 'Account created successfully! Welcome to Brightway Investor!' 
+          });
         }
       }
     } catch (error: any) {

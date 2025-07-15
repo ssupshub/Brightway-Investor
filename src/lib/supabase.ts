@@ -9,12 +9,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    // Disable email confirmation for development
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true,
-    // Set the redirect URL for email confirmation
-    redirectTo: `${window.location.origin}/`
+    detectSessionInUrl: false, // Disable URL detection to prevent issues
+    // Completely disable email confirmation
+    flowType: 'implicit'
   }
 })
 

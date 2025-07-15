@@ -62,6 +62,11 @@ function App() {
   // Check for existing session on app load
   useEffect(() => {
     const checkSession = async () => {
+      const timeout = setTimeout(() => {
+        console.warn('Session check timeout - proceeding without authentication');
+        setIsLoading(false);
+      }, 5000); // 5 second timeout
+      
       try {
         const { user: currentUser } = await authHelpers.getCurrentUser();
         
@@ -76,8 +81,9 @@ function App() {
         }
       } catch (error) {
         console.error('Error checking session:', error);
+        // Don't block the app if session check fails
       } finally {
-        // Always set loading to false after checking session
+        clearTimeout(timeout);
         setIsLoading(false);
       }
     };
@@ -86,17 +92,22 @@ function App() {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_OUT' || !session) {
-        setUser(null);
-      } else if (event === 'SIGNED_IN' && session.user) {
-        const { data: profile } = await authHelpers.getUserProfile(session.user.id);
-        
-        setUser({
-          email: session.user.email!,
-          name: profile?.full_name || session.user.email!.split('@')[0],
-          id: session.user.id
-        });
-        setShowLogin(false);
+      try {
+        if (event === 'SIGNED_OUT' || !session) {
+          setUser(null);
+        } else if (event === 'SIGNED_IN' && session.user) {
+          const { data: profile } = await authHelpers.getUserProfile(session.user.id);
+          
+          setUser({
+            email: session.user.email!,
+            name: profile?.full_name || session.user.email!.split('@')[0],
+            id: session.user.id
+          });
+          setShowLogin(false);
+        }
+      } catch (error) {
+        console.error('Auth state change error:', error);
+        // Don't block the app if auth state change fails
       }
     });
 
@@ -117,6 +128,9 @@ function App() {
           </div>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
           <p className={`mt-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Loading...</p>
+          <p className={`mt-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            If this takes too long, please refresh the page
+          </p>
         </div>
       </div>
     );
