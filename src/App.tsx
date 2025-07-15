@@ -34,6 +34,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -41,12 +42,21 @@ function App() {
 
   const handleLogin = (userData: User) => {
     setUser(userData);
+    setShowLogin(false);
   };
 
   const handleLogout = () => {
     authHelpers.signOut().then(() => {
       setUser(null);
     });
+  };
+
+  const handleShowLogin = () => {
+    setShowLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setShowLogin(false);
   };
 
   // Check for existing session on app load
@@ -67,6 +77,7 @@ function App() {
       } catch (error) {
         console.error('Error checking session:', error);
       } finally {
+        // Always set loading to false after checking session
         setIsLoading(false);
       }
     };
@@ -85,6 +96,7 @@ function App() {
           name: profile?.full_name || session.user.email!.split('@')[0],
           id: session.user.id
         });
+        setShowLogin(false);
       }
     });
 
@@ -110,21 +122,38 @@ function App() {
     );
   }
 
-  // Show login page if user is not authenticated
-  if (!user) {
-    return <Login darkMode={darkMode} onLogin={handleLogin} onToggleMode={toggleDarkMode} />;
-  }
-
   return (
     <Router>
       <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
         <ScrollToTop />
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} user={user} onLogout={handleLogout} />
+        <Header 
+          darkMode={darkMode} 
+          toggleDarkMode={toggleDarkMode} 
+          user={user} 
+          onLogout={handleLogout}
+          onShowLogin={handleShowLogin}
+        />
+        
+        {/* Login Modal */}
+        {showLogin && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="relative max-w-md w-full mx-4">
+              <button
+                onClick={handleCloseLogin}
+                className="absolute -top-4 -right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-600 hover:text-gray-800 z-10"
+              >
+                ✕
+              </button>
+              <Login darkMode={darkMode} onLogin={handleLogin} onToggleMode={toggleDarkMode} />
+            </div>
+          </div>
+        )}
+
         <Routes>
           <Route path="/" element={<Home darkMode={darkMode} />} />
           <Route path="/about" element={<About darkMode={darkMode} />} />
           <Route path="/services" element={<Services darkMode={darkMode} />} />
-          <Route path="/stocks" element={<Stocks darkMode={darkMode} />} />
+          <Route path="/stocks" element={<Stocks darkMode={darkMode} user={user} onShowLogin={handleShowLogin} />} />
           <Route path="/faq" element={<FAQ darkMode={darkMode} />} />
           <Route path="/disclaimer" element={<Disclaimer darkMode={darkMode} />} />
           <Route path="/contact" element={<Contact darkMode={darkMode} />} />

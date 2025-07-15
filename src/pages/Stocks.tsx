@@ -3,6 +3,8 @@ import { TrendingUp, TrendingDown, Search, RefreshCw, AlertCircle } from 'lucide
 
 interface StocksProps {
   darkMode: boolean;
+  user: { email: string; name: string; id: string } | null;
+  onShowLogin: () => void;
 }
 
 interface Stock {
@@ -18,7 +20,7 @@ interface Stock {
   isLive: boolean;
 }
 
-const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
+const Stocks: React.FC<StocksProps> = ({ darkMode, user, onShowLogin }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSector, setSelectedSector] = useState('All');
   const [sortBy, setSortBy] = useState('symbol');
@@ -207,6 +209,28 @@ const Stocks: React.FC<StocksProps> = ({ darkMode }) => {
       darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
     }`}>
       <div className="max-w-7xl mx-auto">
+        {/* Login Required Notice for Non-Users */}
+        {!user && (
+          <div className={`mb-8 p-6 rounded-2xl border-2 border-dashed ${
+            darkMode ? 'border-blue-600 bg-blue-900/20' : 'border-blue-600 bg-blue-50'
+          }`}>
+            <div className="text-center">
+              <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-800'}`}>
+                Enhanced Features Available
+              </h3>
+              <p className={`mb-4 ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
+                Sign in to access advanced portfolio tracking, personalized watchlists, and real-time alerts.
+              </p>
+              <button
+                onClick={onShowLogin}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              >
+                Sign In for Full Access
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">

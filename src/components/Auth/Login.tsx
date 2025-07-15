@@ -111,14 +111,26 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
 
         if (data.user) {
-          setMessage({ 
-            type: 'success', 
-            text: 'Account created successfully! Please check your email for verification before signing in.' 
-          });
-          
-          // Clear form and switch to login mode
-          setFormData({ name: '', email: '', password: '', confirmPassword: '' });
-          setIsLogin(true);
+          // For development, auto-login after signup (skip email verification)
+          if (data.user.email_confirmed_at || !data.user.confirmation_sent_at) {
+            // User is already confirmed or confirmation not required
+            const { data: profile } = await authHelpers.getUserProfile(data.user.id);
+            
+            onLogin({
+              email: data.user.email!,
+              name: profile?.full_name || formData.name,
+              id: data.user.id
+            });
+          } else {
+            setMessage({ 
+              type: 'success', 
+              text: 'Account created successfully! You can now sign in with your credentials.' 
+            });
+            
+            // Clear form and switch to login mode
+            setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+            setIsLogin(true);
+          }
         }
       }
     } catch (error: any) {
@@ -127,12 +139,10 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         setMessage({ type: 'error', text: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character.' });
       } else if (error?.message?.includes('email_address_invalid')) {
         setMessage({ type: 'error', text: 'Please enter a valid email address.' });
-      } else if (error?.message?.includes('email_not_confirmed')) {
-        setMessage({ type: 'error', text: 'Please check your email and click the confirmation link before signing in.' });
       } else if (error?.message?.includes('Invalid login credentials')) {
         setMessage({ 
           type: 'error', 
-          text: 'Invalid email or password. Please double-check your credentials and try again. If you recently signed up, make sure to confirm your email first.' 
+          text: 'Invalid email or password. Please double-check your credentials and try again.' 
         });
       } else {
         setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });

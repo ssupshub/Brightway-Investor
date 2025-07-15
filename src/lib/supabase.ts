@@ -1,13 +1,22 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://xogcwlrjicxcexegxohv.supabase.co'
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvZ2N3bHJqaWN4Y2V4ZWd4b2h2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0MjU5NzAsImV4cCI6MjA2ODAwMTk3MH0.ZCA3TNz5k6O456siMzHFDRL4fbtvA_PZQsYnONF38xM'
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    // Disable email confirmation for development
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    // Set the redirect URL for email confirmation
+    redirectTo: `${window.location.origin}/`
+  }
+})
 
 // Types for our database
 export interface UserProfile {

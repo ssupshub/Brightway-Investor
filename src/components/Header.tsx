@@ -5,11 +5,12 @@ import { Menu, X, Sun, Moon, Phone, MessageCircle, LogOut, User } from 'lucide-r
 interface HeaderProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
-  user: { email: string; name: string };
+  user: { email: string; name: string } | null;
   onLogout: () => void;
+  onShowLogin: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogout, onShowLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
@@ -77,49 +78,62 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
 
           {/* Right side buttons */}
           <div className="flex items-center space-x-2">
-            {/* User Menu */}
-            <div className="relative">
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
-                  darkMode ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-gray-900'
+            {user ? (
+              /* User Menu */
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+                    darkMode ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-gray-900'
+                  }`}
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="hidden md:block text-sm font-medium truncate max-w-20">
+                    {user.name}
+                  </span>
+                </button>
+
+                {showUserMenu && (
+                  <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
+                    darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+                  }`}>
+                    <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+                      <p className={`text-sm font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        {user.name}
+                      </p>
+                      <p className={`text-xs truncate ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        {user.email}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        onLogout();
+                        setShowUserMenu(false);
+                      }}
+                      className={`w-full flex items-center space-x-2 px-3 py-2 text-left transition-colors ${
+                        darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span className="text-sm">Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Login Button */
+                  <button
+                onClick={onShowLogin}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors shadow-sm ${
+                  darkMode ? 'bg-blue-900/50 text-blue-400 hover:bg-blue-800 border border-blue-700' : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
                 }`}
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-                <span className="hidden md:block text-sm font-medium truncate max-w-20">
-                  {user.name}
-                </span>
+                <User className="w-4 h-4" />
+                <span className="text-sm font-medium">Login</span>
               </button>
-
-              {showUserMenu && (
-                <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-50 ${
-                  darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                }`}>
-                  <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-                    <p className={`text-sm font-medium truncate ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                      {user.name}
-                    </p>
-                    <p className={`text-xs truncate ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      {user.email}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      onLogout();
-                      setShowUserMenu(false);
-                    }}
-                    className={`w-full flex items-center space-x-2 px-3 py-2 text-left transition-colors ${
-                      darkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
-                    }`}
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span className="text-sm">Sign Out</span>
-                  </button>
-                </div>
-              )}
-            </div>
+            )}
 
             {/* WhatsApp Button */}
             <a 
@@ -197,6 +211,22 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
                   {item.name}
                 </Link>
               ))}
+              
+              {!user && (
+                <button
+                  onClick={() => {
+                    onShowLogin();
+                    setIsMenuOpen(false);
+                  }}
+                  className={`mx-4 mt-2 flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors shadow-sm ${
+                    darkMode ? 'bg-blue-900/50 text-blue-400 border border-blue-700' : 'bg-blue-50 text-blue-700 border border-blue-200'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  <span className="text-sm font-medium">Login</span>
+                </button>
+              )}
+              
               <a 
                 href="https://wa.me/919355659990"
                 target="_blank"
@@ -208,18 +238,21 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, user, onLogou
                 <MessageCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">WhatsApp Us</span>
               </a>
-              <button
-                onClick={() => {
-                  onLogout();
-                  setIsMenuOpen(false);
-                }}
-                className={`mx-4 mt-2 flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors shadow-sm ${
-                  darkMode ? 'bg-red-900/50 text-red-400 border border-red-700' : 'bg-red-50 text-red-700 border border-red-200'
-                }`}
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="text-sm font-medium">Sign Out</span>
-              </button>
+              
+              {user && (
+                <button
+                  onClick={() => {
+                    onLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className={`mx-4 mt-2 flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors shadow-sm ${
+                    darkMode ? 'bg-red-900/50 text-red-400 border border-red-700' : 'bg-red-50 text-red-700 border border-red-200'
+                    }`}
+                  >
+                  <LogOut className="w-4 h-4" />
+                    <span className="text-sm">Sign Out</span>
+                  </button>
+              )}
             </nav>
           </div>
         )}
