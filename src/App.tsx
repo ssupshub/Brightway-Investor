@@ -63,15 +63,22 @@ function App() {
   // Check for existing session on app load
   useEffect(() => {
     const checkSession = async () => {
-      // Set a shorter timeout for better UX
-      const timeout = setTimeout(() => {
+      // Set a timeout for better UX
+      const timeoutId = setTimeout(() => {
         console.warn('Session check timeout - proceeding without authentication');
         setIsLoading(false);
-      }, 3000); // 3 second timeout
+      }, 5000); // 5 second timeout
       
       try {
-        // Get session directly from Supabase
-        const { data: { session }, error } = await supabase.auth.getSession();
+        // Get session with timeout
+        const { data: { session }, error } = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Session check timeout')), 4000)
+          )
+        ]) as any;
+        
+        clearTimeout(timeoutId);
         
         if (error) {
           console.error('Session error:', error);
@@ -91,10 +98,10 @@ function App() {
           setUser(null);
         }
       } catch (error) {
-        console.error('Error checking session:', error);
+        console.warn('Session check failed:', error);
         setUser(null);
       } finally {
-        clearTimeout(timeout);
+        clearTimeout(timeoutId);
         setIsLoading(false);
       }
     };

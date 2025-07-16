@@ -81,19 +81,40 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
     setIsLoading(true);
     setMessage(null);
 
+    // Set a timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+      setMessage({ 
+        type: 'error', 
+        text: 'Request timed out. Please check your connection and try again.' 
+      });
+    }, 10000); // 10 second timeout
+
     try {
       if (isLogin) {
         // Sign in
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
+        const { data, error } = await Promise.race([
+          supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Login timeout')), 8000)
+          )
+        ]) as any;
+        
+        clearTimeout(timeoutId);
         
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
             setMessage({ 
               type: 'error', 
               text: 'Invalid email or password. Please check your credentials and try again.' 
+            });
+          } else if (error.message.includes('timeout')) {
+            setMessage({ 
+              type: 'error', 
+              text: 'Login is taking too long. Please try again.' 
             });
           } else {
             setMessage({ type: 'error', text: error.message });
@@ -102,32 +123,50 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
 
         if (data.user) {
-          const { data: profile } = await authHelpers.getUserProfile(data.user.id);
-          
-          onLogin({
-            email: data.user.email!,
-            name: profile?.full_name || data.user.email!.split('@')[0],
-            id: data.user.id
-          });
+          try {
+            const { data: profile } = await authHelpers.getUserProfile(data.user.id);
+            
+            onLogin({
+              email: data.user.email!,
+              name: profile?.full_name || data.user.email!.split('@')[0],
+              id: data.user.id
+            });
+          } catch (profileError) {
+            // Even if profile fetch fails, still log the user in
+            onLogin({
+              email: data.user.email!,
+              name: data.user.email!.split('@')[0],
+              id: data.user.id
+            });
+          }
         }
       } else {
         // Sign up
-        const { data, error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              full_name: formData.name,
+        const { data, error } = await Promise.race([
+          supabase.auth.signUp({
+            email: formData.email,
+            password: formData.password,
+            options: {
+              data: {
+                full_name: formData.name,
+              },
+              emailRedirectTo: undefined,
             },
-            emailRedirectTo: undefined,
-          },
-        });
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Signup timeout')), 8000)
+          )
+        ]) as any;
+        
+        clearTimeout(timeoutId);
         
         if (error) {
           if (error.message.includes('weak_password')) {
             setMessage({ type: 'error', text: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character.' });
           } else if (error.message.includes('email_address_invalid')) {
             setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+          } else if (error.message.includes('timeout')) {
+            setMessage({ type: 'error', text: 'Signup is taking too long. Please try again.' });
           } else {
             setMessage({ type: 'error', text: error.message });
           }
@@ -135,23 +174,49 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
 
         if (data.user) {
-          const { data: profile } = await authHelpers.getUserProfile(data.user.id);
-          
-          onLogin({
-            email: data.user.email!,
-            name: profile?.full_name || formData.name,
-            id: data.user.id
-          });
-          
-          setMessage({ 
-            type: 'success', 
-            text: 'Account created successfully! Welcome to Brightway Investor!' 
-          });
+          try {
+            const { data: profile } = await authHelpers.getUserProfile(data.user.id);
+            
+            onLogin({
+              email: data.user.email!,
+              name: profile?.full_name || formData.name,
+              id: data.user.id
+            });
+            
+            setMessage({ 
+              type: 'success', 
+              text: 'Account created successfully! Welcome to Brightway Investor!' 
+            });
+          } catch (profileError) {
+            // Even if profile fetch fails, still log the user in
+            onLogin({
+              email: data.user.email!,
+              name: formData.name,
+              id: data.user.id
+            });
+            
+            setMessage({ 
+              type: 'success', 
+              text: 'Account created successfully! Welcome to Brightway Investor!' 
+            });
+          }
         }
       }
     } catch (error: any) {
+      clearTimeout(timeoutId);
       console.error('Auth error:', error);
-      setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });
+      
+      if (error?.message?.includes('timeout')) {
+        setMessage({ 
+          type: 'error', 
+          text: 'Connection timeout. Please check your internet and try again.' 
+        });
+      } else {
+        setMessage({ 
+          type: 'error', 
+          text: error?.message || 'An unexpected error occurred. Please try again.' 
+        });
+      }
     } finally {
       setIsLoading(false);
     }
