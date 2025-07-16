@@ -11,9 +11,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: false, // Disable URL detection to prevent issues
-    // Completely disable email confirmation
-    flowType: 'implicit'
+    detectSessionInUrl: false,
+    flowType: 'implicit',
+    storage: window.localStorage,
+    storageKey: 'supabase.auth.token'
   }
 })
 

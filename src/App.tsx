@@ -46,8 +46,9 @@ function App() {
   };
 
   const handleLogout = () => {
-    authHelpers.signOut().then(() => {
-      setUser(null);
+    setUser(null);
+    authHelpers.signOut().catch(error => {
+      console.error('Logout error:', error);
     });
   };
 
@@ -62,26 +63,36 @@ function App() {
   // Check for existing session on app load
   useEffect(() => {
     const checkSession = async () => {
+      // Set a shorter timeout for better UX
       const timeout = setTimeout(() => {
         console.warn('Session check timeout - proceeding without authentication');
         setIsLoading(false);
-      }, 5000); // 5 second timeout
+      }, 3000); // 3 second timeout
       
       try {
-        const { user: currentUser } = await authHelpers.getCurrentUser();
+        // Get session directly from Supabase
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (currentUser) {
-          const { data: profile } = await authHelpers.getUserProfile(currentUser.id);
+        if (error) {
+          console.error('Session error:', error);
+          setIsLoading(false);
+          return;
+        }
+        
+        if (session?.user) {
+          const { data: profile } = await authHelpers.getUserProfile(session.user.id);
           
           setUser({
-            email: currentUser.email!,
-            name: profile?.full_name || currentUser.email!.split('@')[0],
-            id: currentUser.id
+            email: session.user.email!,
+            name: profile?.full_name || session.user.email!.split('@')[0],
+            id: session.user.id
           });
+        } else {
+          setUser(null);
         }
       } catch (error) {
         console.error('Error checking session:', error);
-        // Don't block the app if session check fails
+        setUser(null);
       } finally {
         clearTimeout(timeout);
         setIsLoading(false);
@@ -93,9 +104,11 @@ function App() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       try {
-        if (event === 'SIGNED_OUT' || !session) {
+        console.log('Auth state change:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_OUT' || !session?.user) {
           setUser(null);
-        } else if (event === 'SIGNED_IN' && session.user) {
+        } else if (session.user) {
           const { data: profile } = await authHelpers.getUserProfile(session.user.id);
           
           setUser({
@@ -103,11 +116,13 @@ function App() {
             name: profile?.full_name || session.user.email!.split('@')[0],
             id: session.user.id
           });
-          setShowLogin(false);
+          
+          if (event === 'SIGNED_IN') {
+            setShowLogin(false);
+          }
         }
       } catch (error) {
         console.error('Auth state change error:', error);
-        // Don't block the app if auth state change fails
       }
     });
 

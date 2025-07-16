@@ -84,16 +84,25 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
     try {
       if (isLogin) {
         // Sign in
-        const { data, error } = await authHelpers.signIn(formData.email, formData.password);
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
         
         if (error) {
-          setMessage({ type: 'error', text: error.message });
+          if (error.message.includes('Invalid login credentials')) {
+            setMessage({ 
+              type: 'error', 
+              text: 'Invalid email or password. Please check your credentials and try again.' 
+            });
+          } else {
+            setMessage({ type: 'error', text: error.message });
+          }
           return;
         }
 
         if (data.user) {
-          // Get user profile
-          const { data: profile, error: profileError } = await authHelpers.getUserProfile(data.user.id);
+          const { data: profile } = await authHelpers.getUserProfile(data.user.id);
           
           onLogin({
             email: data.user.email!,
@@ -110,17 +119,22 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
             data: {
               full_name: formData.name,
             },
-            emailRedirectTo: undefined, // Disable email confirmation completely
+            emailRedirectTo: undefined,
           },
         });
         
         if (error) {
-          setMessage({ type: 'error', text: error.message });
+          if (error.message.includes('weak_password')) {
+            setMessage({ type: 'error', text: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character.' });
+          } else if (error.message.includes('email_address_invalid')) {
+            setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+          } else {
+            setMessage({ type: 'error', text: error.message });
+          }
           return;
         }
 
         if (data.user) {
-          // Auto-login immediately after signup (no email confirmation required)
           const { data: profile } = await authHelpers.getUserProfile(data.user.id);
           
           onLogin({
@@ -136,19 +150,8 @@ const Login: React.FC<LoginProps> = ({ darkMode, onLogin, onToggleMode }) => {
         }
       }
     } catch (error: any) {
-      // Handle specific Supabase errors
-      if (error?.message?.includes('weak_password')) {
-        setMessage({ type: 'error', text: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character.' });
-      } else if (error?.message?.includes('email_address_invalid')) {
-        setMessage({ type: 'error', text: 'Please enter a valid email address.' });
-      } else if (error?.message?.includes('Invalid login credentials')) {
-        setMessage({ 
-          type: 'error', 
-          text: 'Invalid email or password. Please double-check your credentials and try again.' 
-        });
-      } else {
-        setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });
-      }
+      console.error('Auth error:', error);
+      setMessage({ type: 'error', text: error?.message || 'An unexpected error occurred. Please try again.' });
     } finally {
       setIsLoading(false);
     }
