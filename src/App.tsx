@@ -82,6 +82,17 @@ function App() {
         
         if (error) {
           console.error('Session error:', error);
+          
+          // Handle invalid refresh token errors by clearing stale session data
+          if (error.message && (
+            error.message.includes('Invalid Refresh Token') || 
+            error.message.includes('Refresh Token Not Found') ||
+            error.message.includes('refresh_token_not_found')
+          )) {
+            console.log('Clearing stale session data due to invalid refresh token');
+            await authHelpers.signOut();
+          }
+          
           setIsLoading(false);
           return;
         }
@@ -99,6 +110,21 @@ function App() {
         }
       } catch (error) {
         console.warn('Session check failed:', error);
+        
+        // Handle invalid refresh token errors in catch block as well
+        if (error instanceof Error && error.message && (
+          error.message.includes('Invalid Refresh Token') || 
+          error.message.includes('Refresh Token Not Found') ||
+          error.message.includes('refresh_token_not_found')
+        )) {
+          console.log('Clearing stale session data due to invalid refresh token in catch');
+          try {
+            await authHelpers.signOut();
+          } catch (signOutError) {
+            console.error('Error during signOut:', signOutError);
+          }
+        }
+        
         setUser(null);
       } finally {
         clearTimeout(timeoutId);
