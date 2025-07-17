@@ -52,6 +52,14 @@ const About: React.FC<AboutProps> = ({ darkMode }) => {
             <h2 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Our Story – The Real Journey Behind Brightway Investor
             </h2>
+            <div className="mb-6">
+              <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Founded by{' '}
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold text-xl">
+                  Rounak Sharma
+                </span>
+              </p>
+            </div>
             <p className={`text-xl font-semibold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
               Founded with Purpose. Built with Passion.
             </p>
@@ -60,31 +68,31 @@ const About: React.FC<AboutProps> = ({ darkMode }) => {
           <div className={`prose prose-lg max-w-none ${darkMode ? 'prose-invert' : ''}`}>
             <div className={`space-y-6 text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p>
-                In 2023, I started Brightway Investor with one simple goal —<br />
+                In 2023, <span className="font-semibold text-blue-600">Rounak Sharma</span> started Brightway Investor with one simple goal —<br />
                 <strong className={darkMode ? 'text-white' : 'text-gray-900'}>
                   To help people truly understand the stock market.
                 </strong>
               </p>
 
               <p>
-                I wasn't a big influencer, nor was I backed by any large company — just someone with a strong desire to share the right knowledge that could change people's financial future.
+                He wasn't a big influencer, nor was he backed by any large company — just someone with a strong desire to share the right knowledge that could change people's financial future.
               </p>
 
               <p>
-                Before launching Brightway, I spent years learning, making mistakes, growing as a trader, and most importantly — understanding how to explain complex concepts in a simple way.
+                Before launching Brightway, <span className="font-semibold text-blue-600">Rounak</span> spent years learning, making mistakes, growing as a trader, and most importantly — understanding how to explain complex concepts in a simple way.
               </p>
 
               <p>
-                I began by teaching a few individuals — helping them understand how the stock market works, what mistakes to avoid, and how they could grow safely even with small capital.<br />
-                Seeing their progress gave me the confidence and clarity that I could create something bigger.
+                He began by teaching a few individuals — helping them understand how the stock market works, what mistakes to avoid, and how they could grow safely even with small capital.<br />
+                Seeing their progress gave <span className="font-semibold text-blue-600">Rounak</span> the confidence and clarity that he could create something bigger.
               </p>
 
               <p>
-                So, I launched Brightway Investor — not just as a company, but as a mission to educate more people and provide them with the right guidance.
+                So, he launched Brightway Investor — not just as a company, but as a mission to educate more people and provide them with the right guidance.
               </p>
 
               <p>
-                To reach more learners, I created a dedicated website, Instagram reel series, and interactive sessions, all focused on clarity, simplicity, and real value — with no fake promises or hype.
+                To reach more learners, <span className="font-semibold text-blue-600">Rounak</span> created a dedicated website, Instagram reel series, and interactive sessions, all focused on clarity, simplicity, and real value — with no fake promises or hype.
               </p>
             </div>
           </div>
