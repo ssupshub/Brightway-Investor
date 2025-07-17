@@ -108,130 +108,98 @@ const Contact: React.FC<ContactProps> = ({ darkMode }) => {
               darkMode ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-200'
             } shadow-xl`}>
               <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                Send Us a Message
+                How to Contact Us for Any Query/Doubt
               </h2>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className={`w-full p-3 rounded-lg border ${
-                        darkMode 
-                          ? 'bg-gray-800 border-gray-600 text-white focus:border-blue-500' 
-                          : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors`}
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                      className={`w-full p-3 rounded-lg border ${
-                        darkMode 
-                          ? 'bg-gray-800 border-gray-600 text-white focus:border-blue-500' 
-                          : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors`}
-                      placeholder="+91 XXXXX XXXXX"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className={`w-full p-3 rounded-lg border ${
-                      darkMode 
-                        ? 'bg-gray-800 border-gray-600 text-white focus:border-blue-500' 
-                        : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors`}
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Subject *
-                  </label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    required
-                    className={`w-full p-3 rounded-lg border ${
-                      darkMode 
-                        ? 'bg-gray-800 border-gray-600 text-white focus:border-blue-500' 
-                        : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors`}
+              <div className="space-y-6">
+                <div className={`p-6 rounded-lg ${
+                  darkMode ? 'bg-gray-800 border border-gray-600' : 'bg-blue-50 border border-blue-200'
+                }`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    📞 For Immediate Assistance
+                  </h3>
+                  <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Call us directly for instant support and personalized guidance:
+                  </p>
+                  <a 
+                    href="tel:+919355659990"
+                    className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                   >
-                    <option value="">Select a subject</option>
-                    <option value="course-inquiry">Course Inquiry</option>
-                    <option value="portfolio-consultation">Portfolio Consultation</option>
-                    <option value="mentorship">One-on-One Mentorship</option>
-                    <option value="general">General Question</option>
-                    <option value="support">Technical Support</option>
-                  </select>
+                    <Phone className="w-5 h-5" />
+                    <span>Call Now: +91 9355659990</span>
+                  </a>
                 </div>
 
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Message *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={5}
-                    className={`w-full p-3 rounded-lg border ${
-                      darkMode 
-                        ? 'bg-gray-800 border-gray-600 text-white focus:border-blue-500' 
-                        : 'bg-white border-gray-300 text-gray-900 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-colors resize-none`}
-                    placeholder="Tell us about your investment goals and how we can help you..."
-                  />
+                <div className={`p-6 rounded-lg ${
+                  darkMode ? 'bg-gray-800 border border-gray-600' : 'bg-green-50 border border-green-200'
+                }`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    💬 For Quick Questions & Doubts
+                  </h3>
+                  <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    WhatsApp us for quick responses to your investment queries:
+                  </p>
+                  <a 
+                    href="https://wa.me/919355659990"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-200"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>WhatsApp: +91 9355659990</span>
+                  </a>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Send Message</span>
-                </button>
-              </form>
+                <div className={`p-6 rounded-lg ${
+                  darkMode ? 'bg-gray-800 border border-gray-600' : 'bg-purple-50 border border-purple-200'
+                }`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    🤔 What You Can Ask Us About
+                  </h3>
+                  <ul className={`space-y-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>Stock market education and courses</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>Portfolio consultation and review</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>One-on-one mentorship programs</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>Investment strategies and tips</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>Market analysis and insights</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-2 h-2 bg-purple-600 rounded-full"></span>
+                      <span>Any doubts about investing</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className={`p-6 rounded-lg ${
+                  darkMode ? 'bg-gray-800 border border-gray-600' : 'bg-yellow-50 border border-yellow-200'
+                }`}>
+                  <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    ⏰ Best Time to Contact
+                  </h3>
+                  <div className={`space-y-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <p><strong>Monday - Friday:</strong> 9:00 AM - 7:00 PM</p>
+                    <p><strong>Saturday:</strong> 10:00 AM - 5:00 PM</p>
+                    <p><strong>Sunday:</strong> Closed</p>
+                    <p className="text-sm mt-3 opacity-75">
+                      For urgent queries outside business hours, WhatsApp us and we'll respond as soon as possible.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Contact Information */}
