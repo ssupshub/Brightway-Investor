@@ -87,4 +87,4 @@ npm start
 ## 🔗 Live Project
 
 You can view the live version of this project here:
-👉 https://taupe-choux-b1670f.netlify.app/
+👉 https://whimsical-rugelach-eff5b7.netlify.app/
