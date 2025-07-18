@@ -6,27 +6,6 @@ interface ContactProps {
 }
 
 const Contact: React.FC<ContactProps> = ({ darkMode }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-  };
-
   return (
     <div className={`main-content ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Hero Section */}
@@ -98,12 +77,12 @@ const Contact: React.FC<ContactProps> = ({ darkMode }) => {
         </div>
       </section>
 
-      {/* Contact Form & Info */}
+      {/* Contact Instructions & Info */}
       <section className={`py-20 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             
-            {/* Contact Form */}
+            {/* Contact Instructions */}
             <div className={`p-8 rounded-2xl ${
               darkMode ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-200'
             } shadow-xl`}>
