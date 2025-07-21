@@ -40,6 +40,9 @@ const About: React.FC<AboutProps> = ({ darkMode }) => {
                 Brightway Investor
               </span>
             </h1>
+            <p className={`text-lg font-medium mb-4 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+              MSME registered
+            </p>
           </div>
         </div>
       </section>
